@@ -336,6 +336,9 @@ definitions:
             area:
                 type: string
                 description: Wohnflaeche
+            personsNumber:
+                type: string
+                description: Anzahl der Personen
             floor:
                 type: string
                 description: Etage
