@@ -333,6 +333,9 @@ definitions:
         type: object
         description: Adresse
         properties:
+            area:
+                type: string
+                description: Wohnflaeche
             floor:
                 type: string
                 description: Etage
