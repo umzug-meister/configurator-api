@@ -448,23 +448,20 @@ definitions:
         properties:
             id: 
                 type: number
+                description: id of input info
             date:
                 type: string
                 format: Datetime
                 description: Umzugsdatum
             from:
-                type: array
-                description: Auszugsadressen
-                items:
-                    $ref: "#/definitions/Adress"
+                type: string
+                description: formatierte und validierte Auszugsadresse, als string
             to:
-                type: array
-                description: Auszugsadressen
-                items:
-                    $ref: "#/definitions/Adress"
+                type: string
+                description: formatierte und validierte Einzugsadresse, als string
             distance:
                 type: string
-                description: zu fahrende distanz
+                description: zu fahrende Distanz 
     Worker:
         type: object
         description: Angestellter
