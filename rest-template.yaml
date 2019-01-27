@@ -342,9 +342,6 @@ definitions:
             parkingSlot:
                 type: boolean
                 description: Halteverbotszone erwünscht?
-            lift:
-                type: boolean
-                description: Aufzug vorhanden?
             liftType:
                 type: string
                 desription: größe des Aufzuges
