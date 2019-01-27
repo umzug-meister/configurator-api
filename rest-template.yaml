@@ -1,0 +1,493 @@
+# Swagger API spec in YAML
+# Movement calculator
+swagger: "2.0"
+info:
+    title: movement calculator
+    description: Movement calc
+    version: "1.0.5"
+# array of all schemes that your API supports
+schemes:
+    - https
+basePath: "/calculator"
+paths:
+    /order/last/{number}:
+        get:
+            description: Gibt {number} letzte Aufträge zurück, sort by creationDate
+            parameters:
+                - name: number
+                  in: path
+                  description: Anzahl der letzten Aufträge.
+                  required: true
+                  type: number
+            responses:
+              "200":
+                  description: Aufträge
+                  schema:
+                      type: array
+                      items: 
+                        $ref: "#/definitions/Order"
+                 
+    /order/search/:
+        get:
+            summary: Auftragsdaten by query
+            description: Gibt Aufträge zurück, welche die query Kriterien erfüllen
+            parameters:
+                - name: queryCriteria
+                  in: query
+                  description: FIQL Kriterien im Format like query?queryCriteria=customerName=="customerName*",date=="date". Wobei es auch möglicch sein soll, Felder nur by name only or by date only abzufragen.
+                  required: true
+                  type: string
+            responses:
+              "200":
+                  description: Aufträge
+                  schema:
+                      type: array
+                      items: 
+                        $ref: "#/definitions/Order"
+    /order/{id}:
+        get:
+            summary: Auftragsdaten
+            description: Gibt auftrag zurück
+            produces:
+                - application/json
+            parameters:
+                - name: id
+                  in: path
+                  description: auftrags id
+                  required: true
+                  type: number
+            responses:
+                "200":
+                    description: Auftrag
+                    schema:
+                        type: object
+                        items:
+                            $ref: "#/definitions/Order"
+        delete:
+            summary: Auftrag entfernen
+            description: Auftrag entefernen
+            parameters:
+                - name: id
+                  in: path
+                  description: auftrags id
+                  required: true
+                  type: number
+            responses:
+                "200":
+                    description: Erfolgreich entfernt
+    /order:
+        post:
+            summary: Auftrag erstellen
+            description: Auftrag erstellen
+            parameters:
+                - in: body
+                  name: order
+                  description: Ein Auftrag welcher angelegt werden soll.
+                  required: true
+                  schema:
+                      $ref: "#/definitions/Order"
+            responses:
+                "201":
+                    description: Auftrag
+                    schema:
+                        type: object
+                        items:
+                            $ref: "#/definitions/Order"
+        put:
+            summary: Auftrag updaten
+            description: Auftrag updaten
+            parameters:
+                - in: body
+                  name: order
+                  description: Ein Auftrag welcher aktualisiert werden soll.
+                  required: true
+                  schema:
+                      $ref: "#/definitions/Order"
+            responses:
+                "201":
+                    description: Auftrag erfolgreich aktualisiert
+                    schema:
+                        type: object
+                        items:
+                            $ref: "#/definitions/Order"
+    /inputinformations/{id}:
+        get:
+            summary: Anfangsinformationen für die App
+            description: Liefert Einzugsadresse(n), Auszugsadresse(n), Umzugsdatum und die berechnete Distanz
+            parameters:
+                - name: id
+                  in: path
+                  description: input informations id
+                  required: true
+                  type: number
+            produces:
+                - application/json
+            responses:
+                "200":
+                    description: Start infos für die app
+                    schema:
+                        type: object
+                        items:
+                            $ref: "#/definitions/InputInformations"
+    /category/{id}:
+        get:
+            summary: Liefert eine Kategorie
+            description: Liefert eine Kategorie, wie Wohnzimmer, Schalfzimmer usw
+            parameters:
+                - name: id
+                  in: path
+                  description: Kategorie id
+                  required: true
+                  type: number
+            responses:
+                "200":
+                    description: Kategorien
+                    schema:
+                        type: object
+                        items:
+                            $ref: "#/definitions/Category"
+        delete: 
+            summary: Kategorie entfernen
+            description: Entfernt eine Kategorie by id
+            parameters:
+                - name: id
+                  in: path
+                  description: Kategorie id
+                  required: true
+                  type: number
+            responses:
+                "200":
+                    description: Erfolgreich entfernt
+    /category/all:
+        get:
+            summary: Liefert alle Kategorien
+            description: Liefert alle Kategorien, wie Wohnzimmer, Schalfzimmer usw
+            responses:
+                "200":
+                    description: Kategorien
+                    schema:
+                        type: array
+                        items:
+                            $ref: "#/definitions/Category"
+    /category:
+        post:
+            summary: erstell eine neue Kategorie
+            description: Erstellt eine neue Kategorie wie Wohnzimmer etc
+            parameters:
+                - name: category
+                  in: body
+                  description: neue Kategorie.
+                  required: true
+                  schema:
+                      $ref: "#/definitions/Category"
+            responses:
+                "201":
+                    description: Kategorie erfolgreich erstellt
+                    schema:
+                        type: object
+                        items:
+                            $ref: "#/definitions/Category"
+    /item/all:
+        get:
+            summary: Liefert alle Gegenstände
+            description: Liefert alle Gegenstände, wie Bett, Couch usw
+            responses:
+                "200":
+                    description: Gegenstände
+                    schema:
+                        type: array
+                        items:
+                            $ref: "#/definitions/Item"
+    /item:
+        post:
+            summary: erstell ein neues Möbelstück
+            description: Erstellt neues möbelstück
+            parameters:
+                - name: item
+                  in: body
+                  description: neue Kategorie.
+                  required: true
+                  schema:
+                      $ref: "#/definitions/Item"
+            responses:
+                "201":
+                    description: Gegenstand erfolgreich erstellt
+                    schema:
+                        type: object
+                        items:
+                            $ref: "#/definitions/Item"
+    /item/{id}:
+        delete:
+            summary: Gegenstand entfernen
+            description: Entfernt ein Gegenstand by id
+            parameters:
+                - name: id
+                  in: path
+                  description: Gegenstand id
+                  required: true
+                  type: number
+            responses:
+                "200":
+                    description: Erfolgreich entfernt
+    /service/all:
+        get:
+            summary: Liefert alle Leistungen
+            description: Liefert alle Gegenstände, wie Bett, Couch usw
+            responses:
+                "200":
+                    description: Gegenstände
+                    schema:
+                        type: array
+                        items:
+                            $ref: "#/definitions/Service"
+    /service:
+        post:
+            summary: erstellt einen neuen Service
+            parameters:
+                - name: service
+                  in: body
+                  description: neue Kategorie.
+                  required: true
+                  schema:
+                      $ref: "#/definitions/Service"
+            responses:
+                "201":
+                    description: Leistung erfolgreich erstellt
+                    schema:
+                        type: object
+                        items:
+                            $ref: "#/definitions/Service"
+    /service/{id}:
+        delete:
+            summary: Service entfernen
+            description: Entfernt eine Leistung
+            parameters:
+                - name: id
+                  in: path
+                  description: Leistungs id
+                  required: true
+                  type: number
+            responses:
+                "200":
+                    description: Erfolgreich entfernt
+definitions:
+    Order:
+        type: object
+        description: Auftrag
+        properties:
+            id:
+                type: string
+            status:
+                type: string
+                description: Confirmed, notConfirmed, etc
+            customer:
+                type: object
+                description: Kunde
+                items: 
+                    $ref: "#/definitions/Customer"
+            date:
+                type: string
+                format: Datetime
+                description: Umzugsdatum
+            from:
+                type: array
+                description: Auszugsadressen
+                items:
+                    $ref: "#/definitions/Address"
+            to:
+                type: array
+                description: Auszugsadressen
+                items:
+                    $ref: "#/definitions/Address"
+            distance:
+                type: string
+                description: zu fahrende distanz
+            services:
+                type: array
+                description: Gebuchte Leistungen
+                items:
+                    $ref: "#/definitions/Service"
+            items:
+                type: array
+                description: ausgewählte Gegenstände
+                items:
+                    $ref: "#/definitions/Item"
+            workersNumber:
+                type: number
+                description: Anzahl der Träger
+            transporterNumber:
+                type: number
+                description: Anzahl der Laster
+            text:
+                type: string
+                description: Freitext zum Auftrag
+            creationTime:
+                type: string
+                format: Datetime
+                description: Erstellungsdatum
+            lupd:
+                type: string
+                format: Datetime
+                description: Last update
+    Address:
+        type: object
+        description: Adresse
+        properties:
+            floor:
+                type: string
+                description: Etage
+            roomsNumber:
+                type: number
+                description: Zimmeranzahl
+            parkingSlot:
+                type: boolean
+                description: Halteverbotszone erwünscht?
+            lift:
+                type: boolean
+                description: Aufzug vorhanden?
+            liftType:
+                type: string
+                desription: größe des Aufzuges
+            runningDistance:
+                type: string
+                description: Entfernung zwischen Be/Entladestelle und LKW
+            address:
+                type: string
+                description: Adresse
+    Customer:
+        type: object
+        description: Kunde
+        properties:
+            firstName:
+                type: string
+                description: Vorname
+            lastName:
+                type: string
+                description: Nachname
+            salutation:
+                type: string
+                description: Anrede
+            company:
+                type: string
+                description: Firma
+            telNumber:
+                type: string
+                description: Tel Nummer
+            email:
+                type: string
+                description: Email Adresse
+    Item:
+        type: object
+        description: Möbelgegenstand
+        properties:
+            categoryRefs:
+                type: array
+                description: Kategorien Referenzen, WZ SZ etc
+                items:
+                    $ref: "#/definitions/Category"
+            name:
+                type: string
+                description: Name
+            id:
+                type: number
+                description: id
+            colli:
+                type: number
+                description: Anzahl
+            volume:
+                type: number
+                description: volumen
+            demontage:
+                type: boolean
+                description: Muss abgebaut werden
+            montage:
+                type: boolean
+                description: Muss aufgebaut werden
+            m100:
+                type: boolean
+                description: Mehr als 100 kg?
+            m150:
+                type: boolean
+                description: Mehr als 150 kg?
+            notDismountable:
+                type: boolean
+                description: Nicht zerlegbar
+            extraPrice:
+                type: number
+                description: zusätzlicher Preis
+    Service:
+        type: object
+        description: Leistung
+        properties:
+            id:
+                type: number
+            name:
+                type: string
+                description: Leistungsname
+            tag:
+                type: string
+                description: Darstellungstag
+            colli: 
+                type: number
+                description: Anzahl
+            description:
+                type: string
+                description: Leistungsbeschreibung
+            price:
+                type: number
+                description: Preis
+    Category:
+        type: object
+        description: Kategorie
+        properties:
+            id:
+                type: number
+            name:
+                type: string
+                description: name der Kategorie
+    InputInformations:
+        type: object
+        description: Eingangsinformation für die app
+        properties:
+            id: 
+                type: number
+            date:
+                type: string
+                format: Datetime
+                description: Umzugsdatum
+            from:
+                type: array
+                description: Auszugsadressen
+                items:
+                    $ref: "#/definitions/Address"
+            to:
+                type: array
+                description: Auszugsadressen
+                items:
+                    $ref: "#/definitions/Address"
+            distance:
+                type: string
+                description: zu fahrende distanz
+    Worker:
+        type: object
+        description: Angestellter
+        properties:
+            nick:
+                type: string
+                description: nickname
+            firstName:
+                type: string
+                description: Vorname
+            lastName:
+                type: string
+                description: Nachname
+            email:
+                type: string
+                description: email
+            tel:
+                type: string
+                description: Telefon
+            isDriver:
+                type: boolean
+                description: Fahrer?
+                
