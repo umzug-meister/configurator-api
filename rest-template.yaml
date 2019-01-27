@@ -293,12 +293,12 @@ definitions:
                 type: object
                 description: Auszugsadresse
                 items:
-                    $ref: "#/definitions/Address"
+                    $ref: "#/definitions/Adress"
             to:
                 type: object
                 description: Einzugsadresse
                 items:
-                    $ref: "#/definitions/Address"
+                    $ref: "#/definitions/Adress"
             distance:
                 type: string
                 description: zu fahrende distanz
@@ -329,7 +329,7 @@ definitions:
                 type: string
                 format: Datetime
                 description: Last update
-    Address:
+    Adress:
         type: object
         description: Adresse
         properties:
@@ -459,12 +459,12 @@ definitions:
                 type: array
                 description: Auszugsadressen
                 items:
-                    $ref: "#/definitions/Address"
+                    $ref: "#/definitions/Adress"
             to:
                 type: array
                 description: Auszugsadressen
                 items:
-                    $ref: "#/definitions/Address"
+                    $ref: "#/definitions/Adress"
             distance:
                 type: string
                 description: zu fahrende distanz
