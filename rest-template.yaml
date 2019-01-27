@@ -290,13 +290,13 @@ definitions:
                 format: Datetime
                 description: Umzugsdatum
             from:
-                type: array
-                description: Auszugsadressen
+                type: object
+                description: Auszugsadresse
                 items:
                     $ref: "#/definitions/Address"
             to:
-                type: array
-                description: Auszugsadressen
+                type: object
+                description: Einzugsadresse
                 items:
                     $ref: "#/definitions/Address"
             distance:
