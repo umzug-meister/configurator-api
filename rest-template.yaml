@@ -339,6 +339,9 @@ definitions:
             personsNumber:
                 type: string
                 description: Anzahl der Personen
+            movementObject:
+                type: string
+                description: Umzugsobject
             floor:
                 type: string
                 description: Etage
