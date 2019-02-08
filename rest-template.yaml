@@ -8,8 +8,43 @@ info:
 # array of all schemes that your API supports
 schemes:
     - https
-basePath: "/calculator"
+basePath: "/wp-json/um-configurator/v1"
 paths:
+    /options/{key}:
+        get:
+            description: Gibt einen wert zum Schlüssel zurück
+            parameters:
+                - name: key
+                  in: path
+                  description: key
+                  required: true
+                  type: string
+            responses:
+                "200":
+                    description: Wert
+                    schema:
+                        type: object
+                        items:
+                            $ref: "#/definitions/Option"
+        put:
+            description: Legt einen neuen Wert an
+            parameters:
+                - name: key
+                  in: path
+                  description: key
+                  required: true
+                  type: string
+                - in: body
+                  name: value
+                  description: Wert zum Schlüssel {key}
+                  required: true
+                  schema:
+                      type: object
+                      items:
+                          $ref: "#/definitions/Option"
+            responses:
+                "204":
+                    description: OK
     /order/last/{number}:
         get:
             description: Gibt {number} letzte Aufträge zurück, sort by creationDate
@@ -20,13 +55,13 @@ paths:
                   required: true
                   type: number
             responses:
-              "200":
-                  description: Aufträge
-                  schema:
-                      type: array
-                      items: 
-                        $ref: "#/definitions/Order"
-                 
+                "200":
+                    description: Aufträge
+                    schema:
+                        type: array
+                        items:
+                            $ref: "#/definitions/Order"
+
     /order/search/:
         get:
             summary: Auftragsdaten by query
@@ -38,12 +73,12 @@ paths:
                   required: true
                   type: string
             responses:
-              "200":
-                  description: Aufträge
-                  schema:
-                      type: array
-                      items: 
-                        $ref: "#/definitions/Order"
+                "200":
+                    description: Aufträge
+                    schema:
+                        type: array
+                        items:
+                            $ref: "#/definitions/Order"
     /order/{id}:
         get:
             summary: Auftragsdaten
@@ -63,6 +98,28 @@ paths:
                         type: object
                         items:
                             $ref: "#/definitions/Order"
+        put:
+            summary: Auftrag updaten
+            description: Auftrag updaten
+            parameters:
+                - in: path
+                  name: id
+                  description: id zum Auftrag
+                  required: true
+                  type: number
+                - in: body
+                  name: order
+                  description: Ein Auftrag welcher aktualisiert werden soll.
+                  required: true
+                  schema:
+                      $ref: "#/definitions/Order"
+            responses:
+                "200":
+                    description: Auftrag erfolgreich aktualisiert
+                    schema:
+                        type: object
+                        items:
+                            $ref: "#/definitions/Order"
         delete:
             summary: Auftrag entfernen
             description: Auftrag entefernen
@@ -73,7 +130,7 @@ paths:
                   required: true
                   type: number
             responses:
-                "200":
+                "204":
                     description: Erfolgreich entfernt
     /order:
         post:
@@ -87,29 +144,13 @@ paths:
                   schema:
                       $ref: "#/definitions/Order"
             responses:
-                "201":
+                "200":
                     description: Auftrag
                     schema:
                         type: object
                         items:
                             $ref: "#/definitions/Order"
-        put:
-            summary: Auftrag updaten
-            description: Auftrag updaten
-            parameters:
-                - in: body
-                  name: order
-                  description: Ein Auftrag welcher aktualisiert werden soll.
-                  required: true
-                  schema:
-                      $ref: "#/definitions/Order"
-            responses:
-                "201":
-                    description: Auftrag erfolgreich aktualisiert
-                    schema:
-                        type: object
-                        items:
-                            $ref: "#/definitions/Order"
+
     /inputinformations/{id}:
         get:
             summary: Anfangsinformationen für die App
@@ -146,7 +187,7 @@ paths:
                         type: object
                         items:
                             $ref: "#/definitions/Category"
-        delete: 
+        delete:
             summary: Kategorie entfernen
             description: Entfernt eine Kategorie by id
             parameters:
@@ -156,7 +197,7 @@ paths:
                   required: true
                   type: number
             responses:
-                "200":
+                "204":
                     description: Erfolgreich entfernt
     /category/all:
         get:
@@ -227,7 +268,7 @@ paths:
                   required: true
                   type: number
             responses:
-                "200":
+                "204":
                     description: Erfolgreich entfernt
     /service/all:
         get:
@@ -268,7 +309,7 @@ paths:
                   required: true
                   type: number
             responses:
-                "200":
+                "204":
                     description: Erfolgreich entfernt
 definitions:
     Order:
@@ -283,7 +324,7 @@ definitions:
             customer:
                 type: object
                 description: Kunde
-                items: 
+                items:
                     $ref: "#/definitions/Customer"
             date:
                 type: string
@@ -353,7 +394,7 @@ definitions:
                 description: Halteverbotszone erwünscht?
             liftType:
                 type: string
-                desription: größe des Aufzuges
+                description: größe des Aufzuges
             runningDistance:
                 type: string
                 description: Entfernung zwischen Be/Entladestelle und LKW
@@ -433,7 +474,7 @@ definitions:
             tag:
                 type: string
                 description: Darstellungstag
-            colli: 
+            colli:
                 type: number
                 description: Anzahl
             description:
@@ -455,7 +496,7 @@ definitions:
         type: object
         description: Eingangsinformation für die app
         properties:
-            id: 
+            id:
                 type: number
                 description: id of input info
             date:
@@ -470,7 +511,14 @@ definitions:
                 description: formatierte und validierte Einzugsadresse, als string
             distance:
                 type: string
-                description: zu fahrende Distanz 
+                description: zu fahrende Distanz
+    Option:
+        type: object
+        description: Wert zum Schlüssel
+        properties:
+            value:
+                type: string
+                description: value
     Worker:
         type: object
         description: Angestellter
@@ -493,4 +541,3 @@ definitions:
             isDriver:
                 type: boolean
                 description: Fahrer?
-                
