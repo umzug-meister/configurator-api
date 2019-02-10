@@ -370,6 +370,18 @@ definitions:
                 type: string
                 format: Datetime
                 description: Last update
+            volume:
+                type: string
+                description: Umzugsgutvolumen
+            volumePrice:
+                type: string
+                description: Umzugsgutvolumen Preis
+            rideCosts:
+                type: string
+                description: Fahrtkosten
+            sum:
+                type: string
+                description: Gesamtsumme
     Adress:
         type: object
         description: Adresse
