@@ -62,7 +62,7 @@ paths:
                         items:
                             $ref: "#/definitions/Order"
 
-    /order/search/:
+    /order:
         get:
             summary: Auftragsdaten by query
             description: Gibt Aufträge zurück, welche die query Kriterien erfüllen
