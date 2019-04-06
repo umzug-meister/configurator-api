@@ -366,6 +366,18 @@ definitions:
                 type: string
                 format: Datetime
                 description: Erstellungsdatum
+            usmFlag: 
+                type: boolean
+                description: USM Möbel vorhanden
+            usmText:
+                type: string
+                description: USM Beschreibung
+            disposalFlag:
+                type: boolean
+                description: Entsorgung vorhanden
+            disposalText:
+                type: string
+                description: Entsorgung text
             lupd:
                 type: string
                 format: Datetime
@@ -471,6 +483,9 @@ definitions:
             notDismountable:
                 type: boolean
                 description: Nicht zerlegbar
+            bulky:
+                type: boolean
+                description: Sperrig
             extraPrice:
                 type: number
                 description: zusätzlicher Preis
